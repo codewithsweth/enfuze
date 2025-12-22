@@ -1,6 +1,6 @@
 import { Tabs, useRouter } from 'expo-router';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
-import { Home, Search, Briefcase, User, Plus } from 'lucide-react-native';
+import { Home, Search, Megaphone, User, Plus } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 function CreateCampaignButton() {
@@ -12,7 +12,7 @@ function CreateCampaignButton() {
       onPress={() => router.push('/campaign/select-template')}
     >
       <LinearGradient
-        colors={['#F97316', '#EA580C']}
+        colors={['#10B981', '#059669']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.createButtonGradient}
@@ -28,12 +28,12 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#2DD4BF',
+        tabBarActiveTintColor: '#10B981',
         tabBarInactiveTintColor: '#6B7280',
         tabBarStyle: {
-          backgroundColor: '#0F172A',
-          borderTopColor: '#1E293B',
-          borderTopWidth: 1,
+          backgroundColor: '#000000',
+          borderTopColor: 'transparent',
+          borderTopWidth: 0,
           height: 60,
           paddingBottom: 8,
           paddingTop: 8,
@@ -77,9 +77,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="campaigns"
         options={{
-          title: 'Campaigns',
+          title: 'Wallet',
           tabBarIcon: ({ size, color }) => (
-            <Briefcase size={size} color={color} />
+            <Megaphone size={size} color={color} />
           ),
         }}
       />

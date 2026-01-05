@@ -1,6 +1,6 @@
 import { Tabs, useRouter } from 'expo-router';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
-import { Home, Search, Megaphone, User, Plus } from 'lucide-react-native';
+import { Home, Search, Megaphone, User, CircleDollarSign } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 function CreateCampaignButton() {
@@ -17,9 +17,20 @@ function CreateCampaignButton() {
         end={{ x: 1, y: 1 }}
         style={styles.createButtonGradient}
       >
-        <Plus color="#FFFFFF" size={28} />
+        <Megaphone color="#FFFFFF" size={28} />
       </LinearGradient>
     </TouchableOpacity>
+  );
+}
+
+function TabIcon({ Icon, size, color, focused }: { Icon: any; size: number; color: string; focused: boolean }) {
+  return (
+    <View style={[
+      styles.tabIconContainer,
+      focused && styles.tabIconContainerActive
+    ]}>
+      <Icon size={size} color={focused ? '#FFFFFF' : color} />
+    </View>
   );
 }
 
@@ -47,8 +58,8 @@ export default function TabLayout() {
         name="home"
         options={{
           title: 'Home',
-          tabBarIcon: ({ size, color }) => (
-            <Home size={size} color={color} />
+          tabBarIcon: ({ size, color, focused }) => (
+            <TabIcon Icon={Home} size={size} color={color} focused={focused} />
           ),
         }}
       />
@@ -56,8 +67,8 @@ export default function TabLayout() {
         name="search"
         options={{
           title: 'Search',
-          tabBarIcon: ({ size, color }) => (
-            <Search size={size} color={color} />
+          tabBarIcon: ({ size, color, focused }) => (
+            <TabIcon Icon={Search} size={size} color={color} focused={focused} />
           ),
         }}
       />
@@ -77,9 +88,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="campaigns"
         options={{
-          title: 'Wallet',
-          tabBarIcon: ({ size, color }) => (
-            <Megaphone size={size} color={color} />
+          title: 'Coins',
+          tabBarIcon: ({ size, color, focused }) => (
+            <TabIcon Icon={CircleDollarSign} size={size} color={color} focused={focused} />
           ),
         }}
       />
@@ -87,8 +98,8 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ size, color }) => (
-            <User size={size} color={color} />
+          tabBarIcon: ({ size, color, focused }) => (
+            <TabIcon Icon={User} size={size} color={color} focused={focused} />
           ),
         }}
       />
@@ -100,9 +111,9 @@ const styles = StyleSheet.create({
   createButton: {
     position: 'absolute',
     top: -20,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 64,
+    height: 64,
+    borderRadius: 20,
     overflow: 'hidden',
     elevation: 5,
     shadowColor: '#000',
@@ -115,5 +126,16 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  tabIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    backgroundColor: '#1E2837',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabIconContainerActive: {
+    backgroundColor: '#10B981',
   },
 });

@@ -29,7 +29,7 @@ function TabIcon({ Icon, size, color, focused }: { Icon: any; size: number; colo
       styles.tabIconContainer,
       focused && styles.tabIconContainerActive
     ]}>
-      <Icon size={size} color={focused ? '#FFFFFF' : color} />
+      <Icon size={22} color={focused ? '#FFFFFF' : color} />
     </View>
   );
 }
@@ -39,19 +39,23 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#10B981',
+        tabBarActiveTintColor: '#D1D5DB',
         tabBarInactiveTintColor: '#6B7280',
         tabBarStyle: {
           backgroundColor: '#000000',
           borderTopColor: 'transparent',
           borderTopWidth: 0,
-          height: 60,
-          paddingBottom: 8,
-          paddingTop: 8,
+          height: 90,
+          paddingBottom: 12,
+          paddingTop: 12,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 11,
           fontWeight: '500',
+          marginTop: 6,
+        },
+        tabBarIconStyle: {
+          marginTop: 0,
         },
       }}>
       <Tabs.Screen
@@ -110,7 +114,7 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   createButton: {
     position: 'absolute',
-    top: -20,
+    top: -28,
     width: 64,
     height: 64,
     borderRadius: 20,
@@ -128,8 +132,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   tabIconContainer: {
-    width: 48,
-    height: 48,
+    width: 52,
+    height: 52,
     borderRadius: 16,
     backgroundColor: '#1E2837',
     alignItems: 'center',

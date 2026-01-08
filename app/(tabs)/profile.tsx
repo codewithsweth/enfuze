@@ -130,7 +130,7 @@ export default function InfluencerProfileScreen() {
           </View>
 
           <View style={styles.actionButtons}>
-            <TouchableOpacity style={styles.editButton}>
+            <TouchableOpacity style={styles.editButton} onPress={() => router.push('/profile/edit-influencer')}>
               <Edit color={COLORS.text} size={18} />
               <Text style={styles.editButtonText}>Edit Profile</Text>
             </TouchableOpacity>

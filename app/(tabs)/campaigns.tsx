@@ -163,7 +163,7 @@ export default function CampaignsScreen() {
               targetFollowers={campaign.targetFollowers}
               applicants={campaign.applicants}
               platforms={campaign.platforms}
-              onPress={() => {}}
+              onPress={() => router.push(`/campaign/${campaign.id}`)}
               onBookmark={() => {}}
               onMenu={() => {}}
             />

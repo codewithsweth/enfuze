@@ -163,6 +163,7 @@ export default function BrandHomeScreen() {
                 targetFollowers="10K-25K followers"
                 applicants={236}
                 platforms={['youtube', 'instagram']}
+                onPress={() => router.push('/campaign/1')}
               />
             </View>
           </ScrollView>
@@ -192,6 +193,7 @@ export default function BrandHomeScreen() {
                 targetFollowers="5K-15K followers"
                 applicants={145}
                 platforms={['youtube', 'instagram']}
+                onPress={() => router.push('/campaign/1')}
               />
             </View>
             <View style={styles.cardContainer}>
@@ -210,6 +212,7 @@ export default function BrandHomeScreen() {
                 targetFollowers="20K-50K followers"
                 applicants={89}
                 platforms={['instagram']}
+                onPress={() => router.push('/campaign/2')}
               />
             </View>
           </ScrollView>

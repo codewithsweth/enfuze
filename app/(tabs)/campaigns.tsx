@@ -1,118 +1,122 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Bell, MessageCircle, Search, SlidersHorizontal, MapPin, Calendar, Users } from 'lucide-react-native';
+import { Bell, MessageCircle, Search, SlidersHorizontal, Coins } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/constants/theme';
+import CampaignCard from '@/components/campaign/CampaignCard';
 
-const filterTabs = [
-  { id: 1, name: 'New', count: '24' },
-  { id: 2, name: 'Applied', count: '2' },
-  { id: 3, name: 'Completed', count: '1' },
-  { id: 4, name: 'Ongoing', count: '3' },
-];
+type CampaignStatus = 'New' | 'Ongoing' | 'On Hold' | 'Completed';
 
-const campaigns = [
+const filterTabs: CampaignStatus[] = ['New', 'Ongoing', 'On Hold', 'Completed'];
+
+const mockCampaigns = [
   {
-    id: 1,
-    title: 'Summer Fashion Collection Launch',
-    brand: 'Zara India',
+    id: '1',
+    title: 'Summer Sneaker Drop',
+    brandName: 'Zara India',
+    budgetRange: '₹50K - ₹1L',
+    image: 'https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg',
+    status: 'Ongoing' as CampaignStatus,
+    progress: 5,
     category: 'Fashion',
-    budget: '50K - 1L',
-    ageRange: '18-25, Female',
+    dateRange: 'Dec 15 - 24 Dec',
     location: 'Mumbai',
-    deadline: 'Dec 15',
-    matchRate: '95%',
-    applicants: 145,
-    verified: true,
-    bgColor: '#FFC0CB',
+    targetAge: '18-25',
+    targetGender: 'Female',
+    targetFollowers: '10K-25K followers',
+    applicants: 236,
+    platforms: ['youtube', 'instagram'] as ('youtube' | 'instagram')[],
   },
   {
-    id: 2,
-    title: 'Tech Product Review Campaign',
-    brand: 'Samsung',
-    category: 'Technology',
-    budget: '1L - 2L',
-    ageRange: '20-35, All',
-    location: 'Pan India',
-    deadline: 'Dec 20',
-    matchRate: '92%',
-    applicants: 234,
-    verified: true,
-    bgColor: '#B8D4E8',
-  },
-  {
-    id: 3,
-    title: 'Fitness & Wellness',
-    brand: 'Nike India',
-    category: 'Fitness',
-    budget: '75K - 1.5L',
-    ageRange: '22-30, All',
-    location: 'Delhi NCR',
-    deadline: 'Dec 18',
-    matchRate: '92%',
-    applicants: 178,
-    verified: true,
-    bgColor: '#C8E6C9',
-  },
-  {
-    id: 4,
-    title: 'Beauty & Skincare',
-    brand: 'Nykaa',
-    category: 'Beauty',
-    budget: '60K - 1.2L',
-    ageRange: '20-35, Female',
+    id: '2',
+    title: 'Summer Sneaker Drop',
+    brandName: 'Zara India',
+    budgetRange: '₹50K - ₹1L',
+    image: 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg',
+    status: 'New' as CampaignStatus,
+    category: 'Fashion',
+    dateRange: 'Dec 15 - 24 Dec',
     location: 'Mumbai',
-    deadline: 'Dec 25',
-    matchRate: '90%',
-    applicants: 267,
-    verified: true,
-    bgColor: '#FFE4E1',
+    targetAge: '18-25',
+    targetGender: 'Female',
+    targetFollowers: '10K-25K followers',
+    applicants: 23,
+    platforms: ['youtube', 'instagram'] as ('youtube' | 'instagram')[],
+  },
+  {
+    id: '3',
+    title: 'Summer Sneaker Drop',
+    brandName: 'Zara India',
+    budgetRange: '₹50K - ₹1L',
+    image: 'https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg',
+    status: 'New' as CampaignStatus,
+    category: 'Fashion',
+    dateRange: 'Dec 15 - 24 Dec',
+    location: 'Mumbai',
+    targetAge: '18-25',
+    targetGender: 'Female',
+    targetFollowers: '10K-25K followers',
+    applicants: 23,
+    platforms: ['youtube', 'instagram'] as ('youtube' | 'instagram')[],
   },
 ];
 
 export default function CampaignsScreen() {
   const router = useRouter();
-  const [selectedFilter, setSelectedFilter] = useState(1);
+  const [selectedFilter, setSelectedFilter] = useState<CampaignStatus>('New');
   const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredCampaigns = mockCampaigns.filter(
+    (campaign) => campaign.status === selectedFilter
+  );
 
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={['#7C3AED', '#6D28D9']}
+        colors={['#8B5CF6', '#7C3AED']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.header}
       >
-        <Text style={styles.title}>Campaigns</Text>
-        <View style={styles.headerIcons}>
-          <TouchableOpacity
-            style={styles.iconButton}
-            onPress={() => router.push('/notifications')}
-          >
-            <Bell color="#FFFFFF" size={20} />
-            <View style={styles.notificationDot} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.iconButton}
-            onPress={() => router.push('/messages')}
-          >
-            <MessageCircle color="#FFFFFF" size={20} />
-          </TouchableOpacity>
+        <View style={styles.headerTop}>
+          <Text style={styles.title}>Campaigns</Text>
+          <View style={styles.headerIcons}>
+            <TouchableOpacity
+              style={styles.iconButton}
+              onPress={() => router.push('/notifications')}
+            >
+              <Bell color={COLORS.text} size={20} />
+              <View style={styles.notificationDot} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.iconButton}
+              onPress={() => router.push('/messages')}
+            >
+              <MessageCircle color={COLORS.text} size={20} />
+            </TouchableOpacity>
+            <View style={styles.coinsButton}>
+              <Coins color={COLORS.text} size={20} />
+              <View style={styles.coinsBadge}>
+                <Text style={styles.coinsBadgeText}>100k</Text>
+              </View>
+            </View>
+          </View>
         </View>
 
         <View style={styles.searchSection}>
           <View style={styles.searchContainer}>
-            <Search color="#6B7280" size={20} />
+            <Search color={COLORS.textSecondary} size={20} />
             <TextInput
               style={styles.searchInput}
-              placeholder="Search creators, categories, locati..."
-              placeholderTextColor="#6B7280"
+              placeholder="Search creators, categories,..."
+              placeholderTextColor={COLORS.textSecondary}
               value={searchQuery}
               onChangeText={setSearchQuery}
             />
           </View>
           <TouchableOpacity style={styles.filterButton}>
-            <SlidersHorizontal color="#FFFFFF" size={20} />
+            <SlidersHorizontal color={COLORS.text} size={20} />
           </TouchableOpacity>
         </View>
 
@@ -123,21 +127,16 @@ export default function CampaignsScreen() {
           contentContainerStyle={styles.filterTabsContent}
         >
           {filterTabs.map((tab) => {
-            const isSelected = selectedFilter === tab.id;
+            const isSelected = selectedFilter === tab;
             return (
               <TouchableOpacity
-                key={tab.id}
+                key={tab}
                 style={[styles.filterTab, isSelected && styles.filterTabActive]}
-                onPress={() => setSelectedFilter(tab.id)}
+                onPress={() => setSelectedFilter(tab)}
               >
                 <Text style={[styles.filterTabText, isSelected && styles.filterTabTextActive]}>
-                  {tab.name}
+                  {tab}
                 </Text>
-                <View style={[styles.countBadge, isSelected && styles.countBadgeActive]}>
-                  <Text style={[styles.countText, isSelected && styles.countTextActive]}>
-                    {tab.count}
-                  </Text>
-                </View>
               </TouchableOpacity>
             );
           })}
@@ -145,76 +144,43 @@ export default function CampaignsScreen() {
       </LinearGradient>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {campaigns.map((campaign) => (
-          <View key={campaign.id} style={styles.campaignCard}>
-            <View style={[styles.campaignImage, { backgroundColor: campaign.bgColor }]}>
-              <Text style={styles.campaignImagePlaceholder}>📸</Text>
-            </View>
-
-            <View style={styles.campaignContent}>
-              <View style={styles.campaignHeader}>
-                <View style={styles.campaignTitleRow}>
-                  <Text style={styles.campaignTitle}>{campaign.title}</Text>
-                  <TouchableOpacity style={styles.bookmarkButton}>
-                    <Text style={styles.bookmarkIcon}>🔖</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.brandRow}>
-                  <Text style={styles.brandName}>{campaign.brand}</Text>
-                  {campaign.verified && (
-                    <View style={styles.verifiedBadge}>
-                      <Text style={styles.verifiedText}>✓</Text>
-                    </View>
-                  )}
-                  <Text style={styles.dot}>•</Text>
-                  <Text style={styles.category}>{campaign.category}</Text>
-                </View>
-              </View>
-
-              <View style={styles.campaignDetails}>
-                <View style={styles.detailRow}>
-                  <View style={styles.budgetBadge}>
-                    <Text style={styles.budgetText}>₹ {campaign.budget}</Text>
-                  </View>
-                  <View style={styles.ageBadge}>
-                    <Text style={styles.ageText}>👤 {campaign.ageRange}</Text>
-                  </View>
-                </View>
-
-                <View style={styles.detailRow}>
-                  <View style={styles.detail}>
-                    <MapPin color="#9CA3AF" size={14} />
-                    <Text style={styles.detailText}>{campaign.location}</Text>
-                  </View>
-                  <View style={styles.detail}>
-                    <Calendar color="#9CA3AF" size={14} />
-                    <Text style={styles.detailText}>{campaign.deadline}</Text>
-                  </View>
-                </View>
-              </View>
-
-              <View style={styles.campaignFooter}>
-                <View style={styles.matchBadge}>
-                  <Text style={styles.matchText}>⚡ {campaign.matchRate}</Text>
-                </View>
-                <View style={styles.applicantsInfo}>
-                  <Users color="#9CA3AF" size={16} />
-                  <Text style={styles.applicantsText}>{campaign.applicants} applicants</Text>
-                </View>
-                <View style={styles.actions}>
-                  <TouchableOpacity style={styles.applyButton}>
-                    <Text style={styles.applyButtonText}>Apply Now</Text>
-                    <Text style={styles.applyArrow}>→</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.detailsButton}>
-                    <Text style={styles.detailsArrow}>→</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </View>
-        ))}
+        <View style={styles.campaignsList}>
+          {filteredCampaigns.map((campaign) => (
+            <CampaignCard
+              key={campaign.id}
+              id={campaign.id}
+              title={campaign.title}
+              brandName={campaign.brandName}
+              budgetRange={campaign.budgetRange}
+              image={campaign.image}
+              status={campaign.status}
+              progress={campaign.progress}
+              category={campaign.category}
+              dateRange={campaign.dateRange}
+              location={campaign.location}
+              targetAge={campaign.targetAge}
+              targetGender={campaign.targetGender}
+              targetFollowers={campaign.targetFollowers}
+              applicants={campaign.applicants}
+              platforms={campaign.platforms}
+              onPress={() => {}}
+              onBookmark={() => {}}
+              onMenu={() => {}}
+            />
+          ))}
+        </View>
       </ScrollView>
+
+      <TouchableOpacity style={styles.fab} onPress={() => router.push('/campaign/select-template')}>
+        <LinearGradient
+          colors={['#00D09E', '#00A67E']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.fabGradient}
+        >
+          <Text style={styles.fabIcon}>+</Text>
+        </LinearGradient>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -222,292 +188,151 @@ export default function CampaignsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: COLORS.background,
   },
   header: {
-    paddingHorizontal: 24,
+    paddingHorizontal: SPACING.xxl,
     paddingTop: 60,
-    paddingBottom: 24,
+    paddingBottom: SPACING.lg,
+  },
+  headerTop: {
+    marginBottom: SPACING.lg,
   },
   title: {
-    fontSize: 32,
+    fontSize: FONT_SIZES.xxxl,
     fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 16,
+    color: COLORS.text,
   },
   headerIcons: {
     position: 'absolute',
-    top: 60,
-    right: 24,
+    top: 0,
+    right: 0,
     flexDirection: 'row',
-    gap: 12,
+    gap: SPACING.sm,
   },
   iconButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
   },
   notificationDot: {
     position: 'absolute',
-    top: 8,
-    right: 8,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#EF4444',
+    top: 10,
+    right: 10,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: COLORS.brand.green,
+    borderWidth: 2,
+    borderColor: '#8B5CF6',
+  },
+  coinsButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  coinsBadge: {
+    position: 'absolute',
+    bottom: -4,
+    backgroundColor: COLORS.background,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: '#8B5CF6',
+  },
+  coinsBadgeText: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: COLORS.text,
   },
   searchSection: {
     flexDirection: 'row',
-    gap: 12,
-    marginBottom: 16,
+    gap: SPACING.md,
+    marginBottom: SPACING.lg,
   },
   searchContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1E293B',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    gap: 12,
+    backgroundColor: COLORS.card,
+    borderRadius: BORDER_RADIUS.lg,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
+    gap: SPACING.md,
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
-    color: '#FFFFFF',
+    fontSize: FONT_SIZES.base,
+    color: COLORS.text,
   },
   filterButton: {
     width: 48,
     height: 48,
-    borderRadius: 12,
-    backgroundColor: '#7C3AED',
+    borderRadius: BORDER_RADIUS.lg,
+    backgroundColor: COLORS.background,
     alignItems: 'center',
     justifyContent: 'center',
   },
   filterTabs: {
-    marginHorizontal: -24,
+    marginHorizontal: -SPACING.xxl,
   },
   filterTabsContent: {
-    paddingHorizontal: 24,
-    gap: 12,
+    paddingHorizontal: SPACING.xxl,
+    gap: SPACING.md,
   },
   filterTab: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 24,
+    paddingVertical: SPACING.sm,
+    paddingHorizontal: SPACING.lg,
+    borderRadius: BORDER_RADIUS.xl,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
   filterTabActive: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLORS.text,
   },
   filterTabText: {
-    fontSize: 14,
+    fontSize: FONT_SIZES.sm,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: COLORS.text,
   },
   filterTabTextActive: {
-    color: '#7C3AED',
-  },
-  countBadge: {
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-    paddingVertical: 2,
-    paddingHorizontal: 8,
-    borderRadius: 12,
-  },
-  countBadgeActive: {
-    backgroundColor: '#7C3AED',
-  },
-  countText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-  },
-  countTextActive: {
-    color: '#FFFFFF',
+    color: '#8B5CF6',
   },
   content: {
     flex: 1,
-    paddingTop: 24,
   },
-  campaignCard: {
-    flexDirection: 'row',
-    backgroundColor: '#1E2837',
-    marginHorizontal: 24,
-    marginBottom: 16,
-    borderRadius: 16,
-    overflow: 'hidden',
+  campaignsList: {
+    padding: SPACING.lg,
   },
-  campaignImage: {
-    width: 140,
+  fab: {
+    position: 'absolute',
+    bottom: 100,
+    alignSelf: 'center',
+    borderRadius: 32,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  fabGradient: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  campaignImagePlaceholder: {
-    fontSize: 64,
-  },
-  campaignContent: {
-    flex: 1,
-    padding: 16,
-  },
-  campaignHeader: {
-    marginBottom: 12,
-  },
-  campaignTitleRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 8,
-  },
-  campaignTitle: {
-    flex: 1,
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    lineHeight: 24,
-  },
-  bookmarkButton: {
-    marginLeft: 8,
-  },
-  bookmarkIcon: {
-    fontSize: 20,
-  },
-  brandRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  brandName: {
-    fontSize: 14,
-    color: '#FFFFFF',
-    fontWeight: '600',
-  },
-  verifiedBadge: {
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    backgroundColor: '#7C3AED',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  verifiedText: {
-    color: '#FFFFFF',
-    fontSize: 10,
-    fontWeight: 'bold',
-  },
-  dot: {
-    color: '#6B7280',
-    fontSize: 12,
-  },
-  category: {
-    fontSize: 14,
-    color: '#9CA3AF',
-  },
-  campaignDetails: {
-    marginBottom: 12,
-    gap: 8,
-  },
-  detailRow: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  budgetBadge: {
-    backgroundColor: '#10B981',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-  },
-  budgetText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  ageBadge: {
-    backgroundColor: '#3B82F6',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-  },
-  ageText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  detail: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  detailText: {
-    fontSize: 13,
-    color: '#9CA3AF',
-  },
-  campaignFooter: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  matchBadge: {
-    backgroundColor: '#7C3AED',
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderRadius: 8,
-  },
-  matchText: {
-    color: '#FFFFFF',
-    fontSize: 11,
-    fontWeight: 'bold',
-  },
-  applicantsInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    flex: 1,
-  },
-  applicantsText: {
-    fontSize: 12,
-    color: '#9CA3AF',
-  },
-  actions: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  applyButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    backgroundColor: '#7C3AED',
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-  },
-  applyButtonText: {
-    color: '#FFFFFF',
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  applyArrow: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  detailsButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#7C3AED',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  detailsArrow: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
+  fabIcon: {
+    fontSize: 32,
+    fontWeight: '300',
+    color: COLORS.text,
   },
 });

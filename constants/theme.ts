@@ -57,6 +57,7 @@ export const FONT_SIZES = {
   lg: 18,
   xl: 20,
   xxl: 24,
+  xxxl: 32,
 } as const;
 
 export const BORDER_RADIUS = {

@@ -146,14 +146,25 @@ export default function BrandHomeScreen() {
             </TouchableOpacity>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-            <CampaignCard
-              id="1"
-              title="Summer Sneaker Drop"
-              budget="$12,500"
-              image="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg"
-              status="Active"
-              progress={67}
-            />
+            <View style={styles.cardContainer}>
+              <CampaignCard
+                id="1"
+                title="Summer Sneaker Drop"
+                brandName="Zara India"
+                budgetRange="₹50K - ₹1L"
+                image="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg"
+                status="Ongoing"
+                progress={67}
+                category="Fashion"
+                dateRange="Dec 15 - 24 Dec"
+                location="Mumbai"
+                targetAge="18-25"
+                targetGender="Female"
+                targetFollowers="10K-25K followers"
+                applicants={236}
+                platforms={['youtube', 'instagram']}
+              />
+            </View>
           </ScrollView>
         </View>
 
@@ -165,20 +176,42 @@ export default function BrandHomeScreen() {
             </TouchableOpacity>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-            <CampaignCard
-              id="1"
-              title="Sneaker Launch"
-              budgetRange="$5K - $10K"
-              image="https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg"
-              categories={['Fashion', 'Men']}
-            />
-            <CampaignCard
-              id="2"
-              title="Skincare Promo"
-              budgetRange="$3K - $7K"
-              image="https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg"
-              categories={['Beauty', 'Women 30-50']}
-            />
+            <View style={styles.cardContainer}>
+              <CampaignCard
+                id="1"
+                title="Sneaker Launch"
+                brandName="Nike India"
+                budgetRange="₹5K - ₹10K"
+                image="https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg"
+                status="New"
+                category="Fashion"
+                dateRange="Dec 20 - 30 Dec"
+                location="Delhi"
+                targetAge="18-30"
+                targetGender="Male"
+                targetFollowers="5K-15K followers"
+                applicants={145}
+                platforms={['youtube', 'instagram']}
+              />
+            </View>
+            <View style={styles.cardContainer}>
+              <CampaignCard
+                id="2"
+                title="Skincare Promo"
+                brandName="Nykaa"
+                budgetRange="₹3K - ₹7K"
+                image="https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg"
+                status="New"
+                category="Beauty"
+                dateRange="Dec 25 - 5 Jan"
+                location="Bangalore"
+                targetAge="30-50"
+                targetGender="Female"
+                targetFollowers="20K-50K followers"
+                applicants={89}
+                platforms={['instagram']}
+              />
+            </View>
           </ScrollView>
         </View>
       </ScrollView>
@@ -376,5 +409,9 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZES.md,
     color: COLORS.brand.green,
     fontWeight: '600',
+  },
+  cardContainer: {
+    width: 360,
+    marginRight: SPACING.lg,
   },
 });

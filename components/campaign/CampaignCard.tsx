@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, Modal, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Bookmark, MoreVertical, Calendar, MapPin, User, Users, Youtube, Instagram, ChevronRight } from 'lucide-react-native';
 import { COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/constants/theme';
@@ -45,6 +45,12 @@ export default function CampaignCard({
   onMenu,
 }: CampaignCardProps) {
   const showProgress = status === 'Ongoing' && typeof progress === 'number';
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const handleMenuPress = () => {
+    setMenuVisible(true);
+    if (onMenu) onMenu();
+  };
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress} activeOpacity={0.95}>
@@ -59,7 +65,7 @@ export default function CampaignCard({
                 <TouchableOpacity style={styles.iconButton} onPress={onBookmark}>
                   <Bookmark color={COLORS.text} size={20} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.iconButton} onPress={onMenu}>
+                <TouchableOpacity style={styles.iconButton} onPress={handleMenuPress}>
                   <MoreVertical color={COLORS.text} size={20} />
                 </TouchableOpacity>
               </View>
@@ -136,6 +142,33 @@ export default function CampaignCard({
           </TouchableOpacity>
         </View>
       </View>
+
+      <Modal
+        visible={menuVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setMenuVisible(false)}
+      >
+        <Pressable style={styles.modalOverlay} onPress={() => setMenuVisible(false)}>
+          <View style={styles.dropdownMenu}>
+            <TouchableOpacity style={styles.menuItem} onPress={() => setMenuVisible(false)}>
+              <Text style={styles.menuText}>Edit Campaign</Text>
+            </TouchableOpacity>
+            <View style={styles.menuDivider} />
+            <TouchableOpacity style={styles.menuItem} onPress={() => setMenuVisible(false)}>
+              <Text style={styles.menuText}>Put on Hold</Text>
+            </TouchableOpacity>
+            <View style={styles.menuDivider} />
+            <TouchableOpacity style={styles.menuItem} onPress={() => setMenuVisible(false)}>
+              <Text style={styles.menuTextDanger}>Withdraw Campaign</Text>
+            </TouchableOpacity>
+            <View style={styles.menuDivider} />
+            <TouchableOpacity style={styles.menuItem} onPress={() => setMenuVisible(false)}>
+              <Text style={styles.menuTextSuccess}>Mark as Completed</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      </Modal>
     </TouchableOpacity>
   );
 }
@@ -329,5 +362,45 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZES.lg,
     fontWeight: '600',
     color: COLORS.text,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dropdownMenu: {
+    backgroundColor: '#1E1E2E',
+    borderRadius: BORDER_RADIUS.lg,
+    padding: SPACING.md,
+    width: 280,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  menuItem: {
+    paddingVertical: SPACING.lg,
+    paddingHorizontal: SPACING.md,
+  },
+  menuText: {
+    fontSize: FONT_SIZES.lg,
+    color: COLORS.text,
+    fontWeight: '400',
+  },
+  menuTextDanger: {
+    fontSize: FONT_SIZES.lg,
+    color: '#EF4444',
+    fontWeight: '400',
+  },
+  menuTextSuccess: {
+    fontSize: FONT_SIZES.lg,
+    color: '#10B981',
+    fontWeight: '400',
+  },
+  menuDivider: {
+    height: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
 });

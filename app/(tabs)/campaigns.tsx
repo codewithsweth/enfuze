@@ -66,6 +66,7 @@ export default function CampaignsScreen() {
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState<CampaignStatus>('New');
   const [searchQuery, setSearchQuery] = useState('');
+  const [openMenuCardId, setOpenMenuCardId] = useState<string | null>(null);
 
   const filteredCampaigns = mockCampaigns.filter(
     (campaign) => campaign.status === selectedFilter
@@ -166,6 +167,8 @@ export default function CampaignsScreen() {
               onPress={() => router.push(`/campaign/${campaign.id}`)}
               onBookmark={() => {}}
               onMenu={() => {}}
+              openMenuCardId={openMenuCardId}
+              onMenuOpen={setOpenMenuCardId}
             />
           ))}
         </View>

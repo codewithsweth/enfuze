@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, Modal, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Bookmark, MoreVertical, Calendar, MapPin, User, Users, Youtube, Instagram, ChevronRight } from 'lucide-react-native';
@@ -23,9 +23,12 @@ interface CampaignCardProps {
   onPress?: () => void;
   onBookmark?: () => void;
   onMenu?: () => void;
+  openMenuCardId?: string | null;
+  onMenuOpen?: (cardId: string | null) => void;
 }
 
 export default function CampaignCard({
+  id,
   title,
   brandName,
   budgetRange,
@@ -43,13 +46,23 @@ export default function CampaignCard({
   onPress,
   onBookmark,
   onMenu,
+  openMenuCardId,
+  onMenuOpen,
 }: CampaignCardProps) {
   const showProgress = status === 'Ongoing' && typeof progress === 'number';
-  const [menuVisible, setMenuVisible] = useState(false);
+  const menuVisible = openMenuCardId === id;
 
   const handleMenuPress = () => {
-    setMenuVisible(true);
+    if (onMenuOpen) {
+      onMenuOpen(id);
+    }
     if (onMenu) onMenu();
+  };
+
+  const closeMenu = () => {
+    if (onMenuOpen) {
+      onMenuOpen(null);
+    }
   };
 
   return (
@@ -147,23 +160,23 @@ export default function CampaignCard({
         visible={menuVisible}
         transparent
         animationType="fade"
-        onRequestClose={() => setMenuVisible(false)}
+        onRequestClose={closeMenu}
       >
-        <Pressable style={styles.modalOverlay} onPress={() => setMenuVisible(false)}>
+        <Pressable style={styles.modalOverlay} onPress={closeMenu}>
           <View style={styles.dropdownMenu}>
-            <TouchableOpacity style={styles.menuItem} onPress={() => setMenuVisible(false)}>
+            <TouchableOpacity style={styles.menuItem} onPress={closeMenu}>
               <Text style={styles.menuText}>Edit Campaign</Text>
             </TouchableOpacity>
             <View style={styles.menuDivider} />
-            <TouchableOpacity style={styles.menuItem} onPress={() => setMenuVisible(false)}>
+            <TouchableOpacity style={styles.menuItem} onPress={closeMenu}>
               <Text style={styles.menuText}>Put on Hold</Text>
             </TouchableOpacity>
             <View style={styles.menuDivider} />
-            <TouchableOpacity style={styles.menuItem} onPress={() => setMenuVisible(false)}>
+            <TouchableOpacity style={styles.menuItem} onPress={closeMenu}>
               <Text style={styles.menuTextDanger}>Withdraw Campaign</Text>
             </TouchableOpacity>
             <View style={styles.menuDivider} />
-            <TouchableOpacity style={styles.menuItem} onPress={() => setMenuVisible(false)}>
+            <TouchableOpacity style={styles.menuItem} onPress={closeMenu}>
               <Text style={styles.menuTextSuccess}>Mark as Completed</Text>
             </TouchableOpacity>
           </View>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,6 +10,7 @@ import { COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/constants/theme';
 
 export default function BrandHomeScreen() {
   const router = useRouter();
+  const [openMenuCardId, setOpenMenuCardId] = useState<string | null>(null);
 
   const handleCreateCampaign = () => {
     router.push('/campaign/select-template');
@@ -164,6 +165,8 @@ export default function BrandHomeScreen() {
                 applicants={236}
                 platforms={['youtube', 'instagram']}
                 onPress={() => router.push('/campaign/1')}
+                openMenuCardId={openMenuCardId}
+                onMenuOpen={setOpenMenuCardId}
               />
             </View>
           </ScrollView>
@@ -179,7 +182,7 @@ export default function BrandHomeScreen() {
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
             <View style={styles.cardContainer}>
               <CampaignCard
-                id="1"
+                id="similar-1"
                 title="Sneaker Launch"
                 brandName="Nike India"
                 budgetRange="₹5K - ₹10K"
@@ -194,11 +197,13 @@ export default function BrandHomeScreen() {
                 applicants={145}
                 platforms={['youtube', 'instagram']}
                 onPress={() => router.push('/campaign/1')}
+                openMenuCardId={openMenuCardId}
+                onMenuOpen={setOpenMenuCardId}
               />
             </View>
             <View style={styles.cardContainer}>
               <CampaignCard
-                id="2"
+                id="similar-2"
                 title="Skincare Promo"
                 brandName="Nykaa"
                 budgetRange="₹3K - ₹7K"
@@ -213,6 +218,8 @@ export default function BrandHomeScreen() {
                 applicants={89}
                 platforms={['instagram']}
                 onPress={() => router.push('/campaign/2')}
+                openMenuCardId={openMenuCardId}
+                onMenuOpen={setOpenMenuCardId}
               />
             </View>
           </ScrollView>
